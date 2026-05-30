@@ -1,0 +1,315 @@
+<!doctype html>
+<html lang="tr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <meta name="theme-color" content="#003b72" />
+    <title>CareConnect Evde Sağlık</title>
+    <link rel="manifest" href="manifest.webmanifest" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <main class="phone-shell" aria-label="CareConnect evde sağlık mobil uygulama prototipi">
+      <header class="top-app-bar">
+        <div class="brand-lockup">
+          <button class="profile-image" id="openProfile" aria-label="Profil ve üyelik bilgileri">A</button>
+          <div>
+            <p class="app-name">CareConnect</p>
+            <h1>Evde Sağlık</h1>
+          </div>
+        </div>
+        <button class="icon-button" aria-label="Bildirimler">
+          <span class="material-symbols-outlined">notifications</span>
+        </button>
+      </header>
+
+      <section class="app-screen">
+        <section class="welcome-section">
+          <p>Merhaba,</p>
+          <h2>Hoş geldin, Ayşe Hanım</h2>
+        </section>
+
+        <section class="health-score-card">
+          <div>
+            <p class="label">Hazırlık Durumu</p>
+            <h3>84<span>/100</span></h3>
+            <div class="score-note">
+              <span class="material-symbols-outlined filled">trending_up</span>
+              Üyelik, konum ve e-Nabız izinleri hazır
+            </div>
+          </div>
+          <div class="score-ring" aria-label="Sağlık hazırlık skoru 84">
+            <svg viewBox="0 0 96 96" aria-hidden="true">
+              <circle cx="48" cy="48" r="40"></circle>
+              <circle class="progress" cx="48" cy="48" r="40"></circle>
+            </svg>
+            <span class="material-symbols-outlined">home_health</span>
+          </div>
+        </section>
+
+        <section class="quick-actions" aria-label="Hızlı işlemler">
+          <h3>Hızlı İşlemler</h3>
+          <div class="quick-grid">
+            <button data-view-target="visits">
+              <span class="material-symbols-outlined">calendar_today</span>
+              Ziyaret Planla
+            </button>
+            <button data-view-target="home">
+              <span class="material-symbols-outlined">medical_services</span>
+              Uzman Bul
+            </button>
+            <button data-view-target="sos">
+              <span class="material-symbols-outlined">emergency</span>
+              SOS
+            </button>
+          </div>
+        </section>
+
+        <section class="location-panel">
+          <div class="location-icon">
+            <span class="material-symbols-outlined">location_on</span>
+          </div>
+          <div>
+            <p class="label">Mevcut konum</p>
+            <h2>Bahçelievler, İstanbul</h2>
+            <span>Yakındaki personeller 4-12 dk içinde müsait</span>
+          </div>
+          <button id="locateBtn" class="text-action">Konumu kullan</button>
+        </section>
+
+        <nav class="tabs" aria-label="Hizmet kategorileri">
+          <button class="tab active" data-service="doctor">Doktor</button>
+          <button class="tab" data-service="nurse">Hemşire</button>
+          <button class="tab" data-service="physio">Fizik Tedavi</button>
+          <button class="tab" data-service="postpartum">Doğum Sonrası</button>
+          <button class="tab" data-service="elder">Yaşlı Bakım</button>
+        </nav>
+
+        <section class="service-card">
+          <div class="service-visual">
+            <span class="material-symbols-outlined" id="serviceIcon">stethoscope</span>
+          </div>
+          <div>
+            <p class="label" id="serviceType">Doktor ziyareti</p>
+            <h2 id="serviceTitle">Evde muayene ve reçete değerlendirme</h2>
+            <p id="serviceText">Şikayetinize göre en yakın uygun doktorla güvenli görüşme ve ev ziyareti planlayın.</p>
+          </div>
+        </section>
+
+        <section class="enabiz-card">
+          <div>
+            <h3>e-Nabız bağlantısı</h3>
+            <p>Alerji, ilaç, kronik hastalık, tetkik, görüntüleme ve aşı geçmişi için izin kapsamları hazır.</p>
+          </div>
+          <label class="switch" aria-label="e-Nabız izni">
+            <input id="enabizToggle" type="checkbox" checked />
+            <span></span>
+          </label>
+        </section>
+
+        <section class="allergy-alert">
+          <span class="material-symbols-outlined">allergy</span>
+          <div>
+            <h3>Alerji taraması kayıt sırasında doldurulur</h3>
+            <p>Bilinen alerji yoksa bile detaylı tarama seçeneği sağlık personeline aktarılır.</p>
+          </div>
+        </section>
+
+        <section class="section-head">
+          <h2>En yakın uygun personel</h2>
+          <button id="refreshBtn">Yenile</button>
+        </section>
+
+        <section class="staff-list" id="staffList" aria-live="polite"></section>
+
+        <section class="sim-view hidden" id="visitsView" aria-label="Ziyaretler">
+          <div class="view-head">
+            <p class="label">Randevu Simülasyonu</p>
+            <h2>Ziyaretler</h2>
+          </div>
+          <div class="appointment-card active-appointment" id="latestAppointment">
+            <div>
+              <span class="material-symbols-outlined">home_health</span>
+            </div>
+            <section>
+              <p class="label">Sıradaki randevu</p>
+              <h3>Henüz çağrı oluşturulmadı</h3>
+              <span>Bir personel seçip ödeme simülasyonunu tamamlayın.</span>
+            </section>
+          </div>
+          <div class="mini-stepper">
+            <div class="step done">1<span>Hizmet</span></div>
+            <div class="step done">2<span>Konum</span></div>
+            <div class="step">3<span>Ödeme</span></div>
+          </div>
+        </section>
+
+        <section class="sim-view hidden" id="healthView" aria-label="Sağlık verileri">
+          <div class="view-head">
+            <p class="label">Sağlık Portföyü</p>
+            <h2>Günlük veriler</h2>
+          </div>
+          <div class="vital-grid">
+            <article>
+              <span class="material-symbols-outlined">monitor_heart</span>
+              <p>Tansiyon</p>
+              <strong>120/80</strong>
+              <small>Normal</small>
+            </article>
+            <article>
+              <span class="material-symbols-outlined">ecg</span>
+              <p>Nabız</p>
+              <strong>72</strong>
+              <small>Stabil</small>
+            </article>
+            <article class="wide">
+              <span class="material-symbols-outlined">air</span>
+              <p>Oksijen</p>
+              <strong>%98</strong>
+              <small>e-Nabız kapsamına hazır demo alanı</small>
+            </article>
+          </div>
+          <div class="trend-card">
+            <div class="chart-line"></div>
+            <p>Son 7 günlük trend simülasyonu: ölçümler stabil görünüyor.</p>
+          </div>
+        </section>
+
+        <section class="sim-view hidden sos-view" id="sosView" aria-label="Acil yardım">
+          <div class="view-head center">
+            <p class="label">Acil Durum</p>
+            <h2>Yardım talebi</h2>
+            <span>Simülasyonda butona basınca 5 saniyelik geri sayım başlar.</span>
+          </div>
+          <button class="sos-button" id="sosButton">
+            <span class="material-symbols-outlined filled">emergency</span>
+            <strong id="sosButtonText">Acil Yardım</strong>
+          </button>
+          <div class="sos-status" id="sosStatus">Konum: Bahçelievler, İstanbul • Hazır</div>
+        </section>
+      </section>
+
+      <nav class="bottom-nav" aria-label="Alt menü">
+        <button class="active" data-view-target="home">
+          <span class="material-symbols-outlined filled">home</span>
+          Ana Sayfa
+        </button>
+        <button data-view-target="visits">
+          <span class="material-symbols-outlined">calendar_today</span>
+          Ziyaretler
+        </button>
+        <button class="sos" data-view-target="sos">
+          <span class="material-symbols-outlined filled">emergency</span>
+          SOS
+        </button>
+        <button data-view-target="health">
+          <span class="material-symbols-outlined">analytics</span>
+          Sağlık
+        </button>
+        <button id="openProfileBottom">
+          <span class="material-symbols-outlined">person</span>
+          Profil
+        </button>
+      </nav>
+
+      <aside class="bottom-sheet" id="bookingSheet" aria-hidden="true">
+        <div class="sheet-handle"></div>
+        <div class="sheet-head">
+          <div>
+            <p class="label">Randevu ve ödeme</p>
+            <h2 id="sheetName">Personel seçin</h2>
+          </div>
+          <button class="icon-button" id="closeSheet" aria-label="Kapat">
+            <span class="material-symbols-outlined">close</span>
+          </button>
+        </div>
+        <div class="summary-grid">
+          <div>
+            <span>Hizmet</span>
+            <strong id="summaryService">Doktor</strong>
+          </div>
+          <div>
+            <span>Ulaşım</span>
+            <strong id="summaryEta">8 dk</strong>
+          </div>
+          <div>
+            <span>Ücret</span>
+            <strong id="summaryPrice">₺1.250</strong>
+          </div>
+          <div>
+            <span>Durum</span>
+            <strong>Online ödeme</strong>
+          </div>
+        </div>
+        <form class="payment-form">
+          <label>
+            Kart numarası
+            <input inputmode="numeric" value="4444 8888 1234 5678" />
+          </label>
+          <div class="form-row">
+            <label>
+              SKT
+              <input inputmode="numeric" value="12/29" />
+            </label>
+            <label>
+              CVV
+              <input inputmode="numeric" value="123" />
+            </label>
+          </div>
+          <button type="button" id="payBtn" class="primary-action">Öde ve çağır</button>
+        </form>
+      </aside>
+
+      <aside class="profile-panel" id="profilePanel" aria-hidden="true">
+        <div class="profile-card">
+          <button class="icon-button close-profile" id="closeProfile" aria-label="Kapat">
+            <span class="material-symbols-outlined">close</span>
+          </button>
+          <h2>Üyelik Bilgileri</h2>
+          <label>Ad Soyad<input value="Ayşe Demir" /></label>
+          <label>T.C. Kimlik No<input value="12345678910" /></label>
+          <label>Telefon<input value="+90 555 123 45 67" /></label>
+          <label>Adres<input value="Bahçelievler, İstanbul" /></label>
+          <section class="allergy-section" aria-label="Alerji taraması">
+            <div>
+              <h3>Alerji Taraması</h3>
+              <p>Hasta kayıt olurken sağlık personelinin görebileceği şekilde doldurulur.</p>
+            </div>
+            <label>
+              Bilinen alerji durumu
+              <select>
+                <option>Bilmiyorum, detaylı tarama yapılsın</option>
+                <option>Bilinen alerjim yok</option>
+                <option>Bilinen alerjim var</option>
+              </select>
+            </label>
+            <div class="allergy-grid">
+              <label><input type="checkbox" /> İlaç</label>
+              <label><input type="checkbox" /> Gıda</label>
+              <label><input type="checkbox" /> Lateks</label>
+              <label><input type="checkbox" /> Arı / böcek</label>
+              <label><input type="checkbox" /> Polen / toz</label>
+              <label><input type="checkbox" /> Kontrast madde</label>
+            </div>
+            <label>
+              Reaksiyon geçmişi
+              <textarea>Örn: nefes darlığı, döküntü, şişlik, bayılma, acil müdahale ihtiyacı</textarea>
+            </label>
+          </section>
+          <div class="profile-note">
+            <strong>Üyelik ücreti: ₺0</strong>
+            <span>Ödeme yalnızca hizmet çağırdığınızda alınır.</span>
+          </div>
+        </div>
+      </aside>
+
+      <div class="toast" id="toast" role="status" aria-live="polite"></div>
+    </main>
+
+    <script src="app.js" charset="UTF-8"></script>
+  </body>
+</html>

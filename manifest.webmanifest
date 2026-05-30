@@ -1,0 +1,10 @@
+{
+  "name": "Evde Sağlık",
+  "short_name": "Evde Sağlık",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#0b5f63",
+  "description": "Konuma göre evde sağlık personeli çağırma ve online ödeme uygulaması.",
+  "icons": []
+}

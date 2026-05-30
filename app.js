@@ -89,17 +89,21 @@ let activeView = "home";
 let lastBooking = null;
 let sosTimer = null;
 let sosCount = 5;
+const GOOGLE_MAPS_API_KEY = "";
 
 const staffList = document.querySelector("#staffList");
 const bookingSheet = document.querySelector("#bookingSheet");
 const profilePanel = document.querySelector("#profilePanel");
-const appScreen = document.querySelector(".app-screen");
+const authScreen = document.querySelector("#authScreen");
+const appScreen = document.querySelector("#appScreen");
+const bottomNav = document.querySelector("#bottomNav");
 const toast = document.querySelector("#toast");
 const homeSections = [
   ".welcome-section",
   ".health-score-card",
   ".quick-actions",
   ".location-panel",
+  ".partner-hospitals",
   ".tabs",
   ".service-card",
   ".enabiz-card",
@@ -115,6 +119,22 @@ function showToast(message) {
   showToast.timeout = setTimeout(() => toast.classList.remove("show"), 2200);
 }
 
+function enterApp(message = "Giriş başarılı. Ana ekran açıldı.") {
+  authScreen.classList.add("hidden");
+  appScreen.classList.remove("hidden");
+  bottomNav.classList.remove("hidden");
+  setView("home");
+  showToast(message);
+}
+
+function setAuthMode(mode) {
+  const isRegister = mode === "register";
+  document.querySelector("#loginTab").classList.toggle("active", !isRegister);
+  document.querySelector("#registerTab").classList.toggle("active", isRegister);
+  document.querySelector("#loginForm").classList.toggle("hidden", isRegister);
+  document.querySelector("#registerForm").classList.toggle("hidden", !isRegister);
+}
+
 function setView(view) {
   activeView = view;
   const isHome = view === "home";
@@ -123,9 +143,9 @@ function setView(view) {
     document.querySelector(selector).classList.toggle("hidden", !isHome);
   });
 
-  document.querySelector("#visitsView").classList.toggle("hidden", view !== "visits");
   document.querySelector("#healthView").classList.toggle("hidden", view !== "health");
   document.querySelector("#sosView").classList.toggle("hidden", view !== "sos");
+  document.querySelector("#mapCard").classList.toggle("hidden", !isHome || !document.querySelector("#mapCard").dataset.active);
 
   document.querySelectorAll("[data-view-target]").forEach((button) => {
     const shouldActivate = button.dataset.viewTarget === view && button.closest(".bottom-nav");
@@ -134,6 +154,57 @@ function setView(view) {
 
   appScreen.scrollTo({ top: 0, behavior: "smooth" });
 }
+
+function activateMap() {
+  const mapCard = document.querySelector("#mapCard");
+  mapCard.dataset.active = "true";
+  mapCard.classList.remove("hidden");
+
+  if (!GOOGLE_MAPS_API_KEY) {
+    document.querySelector("#mapMode").textContent = "Demo harita";
+    return;
+  }
+
+  document.querySelector("#mapMode").textContent = "Google Maps";
+
+  if (window.google?.maps) {
+    initGoogleMap();
+    return;
+  }
+
+  const script = document.createElement("script");
+  script.src = `https://maps.googleapis.com/maps/api/js?key=${GOOGLE_MAPS_API_KEY}&callback=initGoogleMap`;
+  script.async = true;
+  script.defer = true;
+  document.head.appendChild(script);
+}
+
+window.initGoogleMap = function initGoogleMap() {
+  const patientLocation = { lat: 41.0024, lng: 28.8594 };
+  const map = new google.maps.Map(document.querySelector("#mapCanvas"), {
+    center: patientLocation,
+    zoom: 14,
+    disableDefaultUI: true
+  });
+
+  new google.maps.Marker({
+    position: patientLocation,
+    map,
+    title: "Hasta konumu"
+  });
+
+  [
+    { title: "Uzm. Dr. Elif Kaya", lat: 41.0082, lng: 28.8521 },
+    { title: "Hem. Zeynep Akın", lat: 41.0001, lng: 28.8712 },
+    { title: "Fzt. Can Öztürk", lat: 40.9959, lng: 28.8648 }
+  ].forEach((person) => {
+    new google.maps.Marker({
+      position: { lat: person.lat, lng: person.lng },
+      map,
+      title: person.title
+    });
+  });
+};
 
 function renderService(key) {
   const service = services[key];
@@ -214,13 +285,10 @@ document.querySelector("#closeSheet").addEventListener("click", () => {
 document.querySelector("#payBtn").addEventListener("click", (event) => {
   event.currentTarget.textContent = "Talep gönderildi";
   event.currentTarget.classList.add("done");
-  document.querySelector("#latestAppointment h3").textContent = `${lastBooking.name} yola çıktı`;
-  document.querySelector("#latestAppointment span").textContent = `${lastBooking.service} • ${lastBooking.eta} içinde ulaşım • ${lastBooking.price} ödendi`;
-  document.querySelectorAll(".mini-stepper .step").forEach((step) => step.classList.add("done"));
   showToast("Ödeme alındı, personel çağrısı oluşturuldu.");
   setTimeout(() => {
     bookingSheet.classList.remove("open");
-    setView("visits");
+    setView("home");
   }, 900);
 });
 
@@ -242,6 +310,7 @@ document.querySelector("#closeProfile").addEventListener("click", () => {
 
 document.querySelector("#locateBtn").addEventListener("click", (event) => {
   event.currentTarget.textContent = "Konum aktif";
+  activateMap();
   showToast("Konum simülasyonu aktif: en yakın personeller güncellendi.");
 });
 
@@ -268,7 +337,7 @@ document.querySelector("#sosButton").addEventListener("click", () => {
     sosCount = 5;
     button.classList.remove("counting");
     text.textContent = "Acil Yardım";
-    status.textContent = "SOS simülasyonu iptal edildi.";
+    status.textContent = "Hastane birimi ve 112 sinyali iptal edildi.";
     showToast("Acil yardım geri sayımı iptal edildi.");
     return;
   }
@@ -276,7 +345,7 @@ document.querySelector("#sosButton").addEventListener("click", () => {
   sosCount = 5;
   button.classList.add("counting");
   text.textContent = `${sosCount}`;
-  status.textContent = "Acil yardım geri sayımı başladı. İptal için tekrar dokunun.";
+  status.textContent = "Geri sayım başladı: hastane acil birimi ve 112 bilgilendirilecek.";
 
   sosTimer = setInterval(() => {
     sosCount -= 1;
@@ -286,11 +355,25 @@ document.querySelector("#sosButton").addEventListener("click", () => {
       clearInterval(sosTimer);
       sosTimer = null;
       button.classList.remove("counting");
-      status.textContent = "Yardım talebi ve konum bilgisi simülasyonda gönderildi.";
-      showToast("SOS talebi oluşturuldu: konum ve hasta bilgisi paylaşıldı.");
+      status.textContent = "Sinyal gönderildi: bağlı hastane acil birimi + 112.";
+      showToast("SOS sinyali hastane birimine ve 112'ye gönderildi.");
     }
   }, 1000);
 });
 
 renderService(currentService);
-setView("home");
+setAuthMode("login");
+
+document.querySelector("#loginTab").addEventListener("click", () => setAuthMode("login"));
+document.querySelector("#registerTab").addEventListener("click", () => setAuthMode("register"));
+document.querySelector("#loginForm").addEventListener("submit", (event) => {
+  event.preventDefault();
+  enterApp();
+});
+document.querySelector("#registerForm").addEventListener("submit", (event) => {
+  event.preventDefault();
+  enterApp("Ücretsiz üyelik oluşturuldu. Hoş geldiniz.");
+});
+document.querySelector("#forgotPasswordBtn").addEventListener("click", () => {
+  showToast("Şifre sıfırlama bağlantısı demo olarak gönderildi.");
+});

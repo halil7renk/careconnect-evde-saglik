@@ -132,16 +132,111 @@ button {
   background: var(--surface-container-low);
 }
 
+.auth-screen,
 .app-screen {
   height: calc(100% - 56px);
   overflow-y: auto;
+  scrollbar-width: none;
+}
+
+.auth-screen {
+  display: grid;
+  align-items: center;
+  padding: 22px 16px 112px;
+}
+
+.app-screen {
   padding: 22px 16px 112px;
   scrollbar-width: none;
 }
 
 .app-screen::-webkit-scrollbar,
+.auth-screen::-webkit-scrollbar,
 .tabs::-webkit-scrollbar {
   display: none;
+}
+
+.auth-card {
+  display: grid;
+  gap: 16px;
+  padding: 20px;
+  border: 1px solid var(--outline-variant);
+  border-radius: 16px;
+  background: var(--surface-container-lowest);
+  box-shadow: 0 16px 36px rgba(0, 59, 114, 0.12);
+}
+
+.auth-brand {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+
+.auth-brand > span {
+  width: 56px;
+  height: 56px;
+  flex: 0 0 auto;
+  display: grid;
+  place-items: center;
+  border-radius: 16px;
+  background: var(--primary-fixed);
+  color: var(--primary);
+  font-size: 34px;
+}
+
+.auth-brand h2 {
+  margin: 0;
+  color: var(--primary);
+  font-size: 24px;
+  line-height: 30px;
+}
+
+.auth-tabs {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  padding: 4px;
+  border-radius: 999px;
+  background: var(--surface-container-low);
+}
+
+.auth-tabs button {
+  min-height: 40px;
+  border-radius: 999px;
+  background: transparent;
+  color: var(--on-surface-variant);
+  font-size: 13px;
+  font-weight: 800;
+}
+
+.auth-tabs button.active {
+  background: var(--primary);
+  color: #fff;
+}
+
+.auth-form {
+  display: grid;
+  gap: 12px;
+}
+
+.link-action {
+  width: max-content;
+  justify-self: center;
+  padding: 6px;
+  background: transparent;
+  color: var(--primary);
+  font-size: 13px;
+  font-weight: 800;
+}
+
+.auth-note {
+  margin: 0;
+  padding: 12px;
+  border-radius: 12px;
+  background: var(--surface-container-low);
+  color: var(--on-surface-variant);
+  font-size: 13px;
+  line-height: 18px;
 }
 
 .welcome-section {
@@ -169,6 +264,8 @@ button {
 
 .health-score-card,
 .location-panel,
+.map-card,
+.partner-hospitals,
 .service-card,
 .enabiz-card,
 .allergy-alert,
@@ -324,6 +421,138 @@ button {
   gap: 12px;
   margin-top: 24px;
   padding: 14px;
+}
+
+.map-card {
+  display: grid;
+  gap: 12px;
+  margin-top: 12px;
+  padding: 14px;
+}
+
+.map-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.map-head h3 {
+  margin: 0;
+  font-size: 16px;
+  line-height: 22px;
+}
+
+.map-head span {
+  flex: 0 0 auto;
+  padding: 7px 9px;
+  border-radius: 999px;
+  background: var(--primary-fixed);
+  color: var(--primary);
+  font-size: 11px;
+  font-weight: 800;
+}
+
+.map-canvas {
+  position: relative;
+  height: 210px;
+  overflow: hidden;
+  border-radius: 12px;
+  background:
+    linear-gradient(115deg, transparent 0 38%, rgba(0, 59, 114, 0.12) 38% 40%, transparent 40%),
+    linear-gradient(35deg, transparent 0 48%, rgba(0, 89, 120, 0.12) 48% 50%, transparent 50%),
+    var(--surface-container-low);
+}
+
+.map-grid {
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(90deg, rgba(0, 59, 114, 0.08) 1px, transparent 1px),
+    linear-gradient(0deg, rgba(0, 59, 114, 0.08) 1px, transparent 1px);
+  background-size: 28px 28px;
+}
+
+.map-pin {
+  position: absolute;
+  min-width: 38px;
+  height: 30px;
+  transform: translate(-50%, -50%);
+  border-radius: 999px 999px 999px 4px;
+  border: 3px solid #fff;
+  background: var(--primary);
+  color: #fff;
+  box-shadow: 0 8px 18px rgba(20, 29, 35, 0.2);
+  font-size: 11px;
+  font-weight: 900;
+}
+
+.map-pin.patient {
+  background: var(--secondary);
+}
+
+.map-pin.nurse {
+  background: #005978;
+}
+
+.map-pin.physio {
+  background: #704c00;
+}
+
+.map-card p {
+  margin: 0;
+  color: var(--on-surface-variant);
+  font-size: 13px;
+  line-height: 18px;
+}
+
+.partner-hospitals {
+  display: grid;
+  gap: 10px;
+  margin-top: 12px;
+  padding: 14px;
+}
+
+.inline-head {
+  margin-top: 0 !important;
+}
+
+.hospital-list {
+  display: grid;
+  gap: 8px;
+}
+
+.hospital-list article {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px;
+  border-radius: 12px;
+  background: var(--surface-container-low);
+}
+
+.hospital-list span {
+  width: 40px;
+  height: 40px;
+  flex: 0 0 auto;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: var(--surface-container-lowest);
+  color: var(--primary);
+}
+
+.hospital-list h3 {
+  margin: 0 0 2px;
+  font-size: 14px;
+  line-height: 19px;
+}
+
+.hospital-list p {
+  margin: 0;
+  color: var(--on-surface-variant);
+  font-size: 12px;
+  line-height: 16px;
 }
 
 .location-icon {
@@ -775,6 +1004,42 @@ button {
   font-weight: 700;
 }
 
+.sos-targets {
+  display: grid;
+  gap: 10px;
+  width: 100%;
+}
+
+.sos-targets article {
+  display: grid;
+  grid-template-columns: 42px 1fr;
+  column-gap: 10px;
+  align-items: center;
+  padding: 12px;
+  border: 1px solid var(--outline-variant);
+  border-radius: 12px;
+  background: var(--surface-container-lowest);
+}
+
+.sos-targets span {
+  grid-row: span 2;
+  width: 42px;
+  height: 42px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: #ffdad5;
+  color: var(--secondary);
+}
+
+.sos-targets strong {
+  font-size: 14px;
+}
+
+.sos-targets small {
+  color: var(--on-surface-variant);
+}
+
 .toast {
   position: absolute;
   left: 16px;
@@ -808,7 +1073,7 @@ button {
   z-index: 4;
   height: 76px;
   display: grid;
-  grid-template-columns: repeat(5, 1fr);
+  grid-template-columns: repeat(4, 1fr);
   align-items: center;
   padding: 6px 8px 8px;
   border-top: 1px solid var(--outline-variant);

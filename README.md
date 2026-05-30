@@ -20,12 +20,16 @@ Bu klasörde, evde sağlık hizmeti veren mobil APK fikri için çalışan bir a
 
 ## Aktif simülasyon
 
-- Alt menüden Ana Sayfa, Ziyaretler, SOS ve Sağlık ekranları arasında geçiş yapılabilir.
+- Uygulama ilk açıldığında üye girişi, şifremi unuttum ve yeni üyelik ekranı gösterilir.
+- Giriş veya yeni üyelik tamamlandıktan sonra ana uygulama ekranı açılır.
+- Alt menüden Ana Sayfa, SOS, Sağlık ve Profil ekranları arasında geçiş yapılabilir.
 - Hizmet kategorileri değiştirilebilir ve en yakın personel listesi canlı güncellenir.
+- Konum aktif edildiğinde Google Maps API için hazır harita alanı açılır; API anahtarı yoksa demo harita görünür.
+- Demo anlaşmalı hastane örnekleri ana ekranda listelenir.
 - Personel kartındaki Çağır düğmesi ödeme panelini açar.
-- Öde ve çağır işleminden sonra randevu Ziyaretler ekranına düşer.
+- Öde ve çağır işleminden sonra personel çağrısı oluşturulur.
 - e-Nabız anahtarı hasta paylaşım iznini simülasyon verisinde açıp kapatır.
-- SOS ekranında Acil Yardım düğmesi 5 saniyelik geri sayım başlatır; tekrar dokunulursa iptal eder.
+- SOS ekranında Acil Yardım düğmesi 5 saniyelik geri sayım başlatır; sinyal bağlı hastane acil birimine ve 112'ye gönderilecek şekilde simüle edilir.
 - Profil ekranında üyelik, alerji taraması ve hasta kayıt alanları düzenlenebilir.
 
 ## APK'ye dönüştürme yolu

@@ -131,11 +131,16 @@
           </div>
           <div class="map-canvas" id="mapCanvas">
             <div class="map-grid"></div>
-            <button class="map-pin patient" style="left: 48%; top: 52%;" aria-label="Hasta konumu">Siz</button>
-            <button class="map-pin staff doctor" style="left: 30%; top: 35%;" aria-label="Doktor konumu">Dr</button>
-            <button class="map-pin staff nurse" style="left: 66%; top: 42%;" aria-label="Hemşire konumu">H</button>
-            <button class="map-pin staff physio" style="left: 58%; top: 70%;" aria-label="Fizik tedavi uzmanı konumu">FT</button>
           </div>
+          <article class="map-profile hidden" id="mapProfile">
+            <img alt="" id="mapProfilePhoto" />
+            <div>
+              <h3 id="mapProfileName">Personel seçin</h3>
+              <div class="rating-row" id="mapProfileRating"></div>
+              <p id="mapProfileBrief"></p>
+            </div>
+            <button class="text-action" id="mapProfileBook" type="button">Çağır</button>
+          </article>
           <p>API anahtarı eklendiğinde bu alan gerçek Google Maps haritası ve marker sistemiyle çalışır.</p>
         </section>
 
@@ -215,7 +220,7 @@
         </section>
 
         <section class="section-head">
-          <h2>En yakın uygun personel</h2>
+          <h2 id="staffSectionTitle">Konumu açınca uygun personeller görünür</h2>
           <button id="refreshBtn">Yenile</button>
         </section>
 

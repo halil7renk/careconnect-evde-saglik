@@ -23,8 +23,10 @@ Bu klasörde, evde sağlık hizmeti veren mobil APK fikri için çalışan bir a
 - Uygulama ilk açıldığında üye girişi, şifremi unuttum ve yeni üyelik ekranı gösterilir.
 - Giriş veya yeni üyelik tamamlandıktan sonra ana uygulama ekranı açılır.
 - Alt menüden Ana Sayfa, SOS, Sağlık ve Profil ekranları arasında geçiş yapılabilir.
-- Hizmet kategorileri değiştirilebilir ve en yakın personel listesi canlı güncellenir.
-- Konum aktif edildiğinde Google Maps API için hazır harita alanı açılır; API anahtarı yoksa demo harita görünür.
+- Hizmet kategorileri değiştirilebilir; sağlık personeli listesi konum açılana kadar gizli kalır.
+- Konum aktif edildiğinde Google Maps API için hazır harita alanı açılır; API anahtarı yoksa fotoğraflı demo harita görünür.
+- Harita marker'ları sağlık personeli fotoğrafıyla işaretlenir; marker seçilince yıldız puanı ve kısa tecrübe özeti açılır.
+- Her sağlık personeli için puan, ücret, ulaşım süresi, fotoğraf, brief ve koordinat alanları hazırdır.
 - Demo anlaşmalı hastane örnekleri ana ekranda listelenir.
 - Personel kartındaki Çağır düğmesi ödeme panelini açar.
 - Öde ve çağır işleminden sonra personel çağrısı oluşturulur.

@@ -6,6 +6,7 @@
   "scripts": {
     "start": "node server.js",
     "dev": "node server.js",
+    "build": "echo Static site ready",
     "check": "node --check app.js && node --check server.js"
   }
 }

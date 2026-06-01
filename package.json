@@ -1,0 +1,11 @@
+{
+  "name": "careconnect-evde-saglik",
+  "version": "1.0.0",
+  "private": true,
+  "description": "CareConnect evde saglik hizmeti mobil web simulasyonu",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js",
+    "check": "node --check app.js && node --check server.js"
+  }
+}

@@ -46,3 +46,23 @@ Bu prototip bir PWA olarak hazırlanmıştır. Sonraki adımda aynı arayüz Cap
 ## Akıllı saat ve bileklik entegrasyon hazırlığı
 
 `app.js` içinde `patientProfile.wearablesIntegration` alanı eklendi. Bu alan Apple HealthKit, Google Fit/Fitbit, Samsung Health, Huawei Health ve Xiaomi/Zepp gibi sağlayıcılar için bağlantı durumu, hasta onayı, izin verilen metrikler, son senkronizasyon zamanı ve servis cevabı saklamak üzere hazırlandı.
+
+## Node ile çalıştırma
+
+Bu proje ek paket gerektirmez. `module not found` hatası almamak için proje klasöründe şu komutları kullanın:
+
+```powershell
+npm start
+```
+
+Tarayıcıda açılacak adres:
+
+```text
+http://localhost:3000
+```
+
+Kod kontrolü:
+
+```powershell
+npm run check
+```

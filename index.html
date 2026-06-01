@@ -137,6 +137,7 @@
             <div>
               <h3 id="mapProfileName">Personel seçin</h3>
               <div class="rating-row" id="mapProfileRating"></div>
+              <div class="profile-stats" id="mapProfileStats"></div>
               <p id="mapProfileBrief"></p>
             </div>
             <button class="text-action" id="mapProfileBook" type="button">Çağır</button>
@@ -338,12 +339,38 @@
         <div class="sheet-handle"></div>
         <div class="sheet-head">
           <div>
-            <p class="label">Randevu ve ödeme</p>
+            <p class="label">Ödeme Sayfası</p>
             <h2 id="sheetName">Personel seçin</h2>
           </div>
           <button class="icon-button" id="closeSheet" aria-label="Kapat">
             <span class="material-symbols-outlined">close</span>
           </button>
+        </div>
+        <div class="payment-provider">
+          <img alt="" id="paymentPhoto" />
+          <div>
+            <span>Seçilen sağlık personeli</span>
+            <strong id="paymentName">Personel</strong>
+            <small id="paymentRatingText">Puan bekleniyor</small>
+          </div>
+        </div>
+        <div class="numeric-strip" aria-label="Personel sayısal bilgileri">
+          <div>
+            <span>Personel No</span>
+            <strong id="paymentStaffNo">1001</strong>
+          </div>
+          <div>
+            <span>Puan</span>
+            <strong id="paymentRatingNumber">4.9/5</strong>
+          </div>
+          <div>
+            <span>Deneyim</span>
+            <strong id="paymentExperience">12 yıl</strong>
+          </div>
+          <div>
+            <span>Ziyaret</span>
+            <strong id="paymentVisits">428</strong>
+          </div>
         </div>
         <div class="summary-grid">
           <div>
@@ -359,14 +386,33 @@
             <strong id="summaryPrice">₺1.250</strong>
           </div>
           <div>
-            <span>Durum</span>
-            <strong>Online ödeme</strong>
+            <span>Mesafe</span>
+            <strong id="summaryDistance">1,8 km</strong>
+          </div>
+          <div>
+            <span>Platform</span>
+            <strong id="summaryFee">₺100</strong>
+          </div>
+          <div>
+            <span>Toplam</span>
+            <strong id="summaryTotal">₺1.350</strong>
           </div>
         </div>
         <form class="payment-form">
+          <div class="secure-payment">
+            <span class="material-symbols-outlined">lock</span>
+            <div>
+              <strong>Güvenli online ödeme</strong>
+              <small>Kart bilgileri demo amaçlıdır, gerçek tahsilat yapılmaz.</small>
+            </div>
+          </div>
           <label>
             Kart numarası
             <input inputmode="numeric" value="4444 8888 1234 5678" />
+          </label>
+          <label>
+            Kart üzerindeki isim
+            <input value="AYŞE DEMİR" />
           </label>
           <div class="form-row">
             <label>

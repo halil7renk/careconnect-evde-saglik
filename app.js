@@ -339,14 +339,40 @@ function setView(view) {
 function getStaffProfile(serviceKey, index) {
   const base = services[serviceKey].staff[index];
   const details = staffProfiles[serviceKey][index];
+  const serviceOrder = Object.keys(services).indexOf(serviceKey) + 1;
+  const distance = getDistanceFromMeta(base[1]);
+  const experienceYears = getExperienceYears(details.brief, serviceOrder, index);
 
   return {
     name: base[0],
     meta: base[1],
     price: base[2],
     eta: base[3],
+    distance,
+    experienceYears,
+    completedVisits: 180 + serviceOrder * 47 + index * 36,
+    staffNo: `10${serviceOrder}${index + 1}`,
+    demoPhone: `0850 777 ${serviceOrder}${index + 1}0${index + 4}`,
     ...details
   };
+}
+
+function getDistanceFromMeta(meta) {
+  const parts = meta.split("•").map((part) => part.trim());
+  return parts[1] || "Yakında";
+}
+
+function getExperienceYears(brief, serviceOrder, index) {
+  const match = brief.match(/(\d+)\s*y/i);
+  return match ? Number(match[1]) : 5 + serviceOrder + index;
+}
+
+function priceToNumber(price) {
+  return Number(price.replace(/\D/g, "")) || 0;
+}
+
+function formatLira(amount) {
+  return `₺${amount.toLocaleString("tr-TR")}`;
 }
 
 function renderStars(rating) {
@@ -362,6 +388,12 @@ function openMapProfile(index) {
   document.querySelector("#mapProfilePhoto").alt = person.name;
   document.querySelector("#mapProfileName").textContent = person.name;
   document.querySelector("#mapProfileRating").textContent = renderStars(person.rating);
+  document.querySelector("#mapProfileStats").innerHTML = `
+    <span>No ${person.staffNo}</span>
+    <span>${person.experienceYears} yıl</span>
+    <span>${person.completedVisits} ziyaret</span>
+    <span>${person.distance}</span>
+  `;
   document.querySelector("#mapProfileBrief").textContent = person.brief;
   document.querySelector("#mapProfile").classList.remove("hidden");
 }
@@ -485,11 +517,19 @@ function renderService(key) {
 
       return `
         <article class="staff-card">
-          <div class="staff-photo"><img src="${person.photo}" alt="${person.name}" /></div>
+          <button class="staff-photo" data-profile-index="${index}" aria-label="${person.name} profil ve ödeme detayını aç">
+            <img src="${person.photo}" alt="${person.name}" />
+            <span class="photo-score">${person.rating.toFixed(1)}</span>
+          </button>
           <div class="staff-main">
             <h3>${person.name}</h3>
             <span class="staff-meta">${person.brief}</span>
             <div class="rating-row staff-rating">${renderStars(person.rating)}</div>
+            <div class="staff-numbers">
+              <span>No ${person.staffNo}</span>
+              <span>${person.experienceYears} yıl deneyim</span>
+              <span>${person.completedVisits} ziyaret</span>
+            </div>
           </div>
           <div class="staff-price">
             <strong>${person.price}</strong>
@@ -509,16 +549,31 @@ function renderService(key) {
 function openBooking(index) {
   const service = services[currentService];
   const person = getStaffProfile(currentService, index);
+  const serviceAmount = priceToNumber(person.price);
+  const platformFee = Math.max(75, Math.round(serviceAmount * 0.08));
+  const total = serviceAmount + platformFee;
   lastBooking = {
     name: person.name,
     service: service.tab,
     eta: person.eta,
-    price: person.price
+    price: person.price,
+    total: formatLira(total)
   };
   document.querySelector("#sheetName").textContent = person.name;
+  document.querySelector("#paymentPhoto").src = person.photo;
+  document.querySelector("#paymentPhoto").alt = person.name;
+  document.querySelector("#paymentName").textContent = person.name;
+  document.querySelector("#paymentRatingText").textContent = `${renderStars(person.rating)} • ${person.demoPhone}`;
+  document.querySelector("#paymentStaffNo").textContent = person.staffNo;
+  document.querySelector("#paymentRatingNumber").textContent = `${person.rating.toFixed(1)}/5`;
+  document.querySelector("#paymentExperience").textContent = `${person.experienceYears} yıl`;
+  document.querySelector("#paymentVisits").textContent = person.completedVisits;
   document.querySelector("#summaryService").textContent = service.tab;
   document.querySelector("#summaryEta").textContent = person.eta;
   document.querySelector("#summaryPrice").textContent = person.price;
+  document.querySelector("#summaryDistance").textContent = person.distance;
+  document.querySelector("#summaryFee").textContent = formatLira(platformFee);
+  document.querySelector("#summaryTotal").textContent = formatLira(total);
   document.querySelector("#payBtn").textContent = "Öde ve çağır";
   document.querySelector("#payBtn").classList.remove("done");
   bookingSheet.classList.add("open");
@@ -535,6 +590,12 @@ document.querySelectorAll(".tab").forEach((tab) => {
 });
 
 staffList.addEventListener("click", (event) => {
+  const profileButton = event.target.closest("[data-profile-index]");
+  if (profileButton) {
+    openBooking(Number(profileButton.dataset.profileIndex));
+    return;
+  }
+
   const button = event.target.closest("button[data-index]");
   if (button) openBooking(Number(button.dataset.index));
 });
@@ -612,6 +673,11 @@ document.querySelector("#refreshBtn").addEventListener("click", (event) => {
 });
 
 document.querySelector("#mapProfileBook").addEventListener("click", () => {
+  if (selectedMapStaffIndex === null) return;
+  openBooking(selectedMapStaffIndex);
+});
+
+document.querySelector("#mapProfilePhoto").addEventListener("click", () => {
   if (selectedMapStaffIndex === null) return;
   openBooking(selectedMapStaffIndex);
 });

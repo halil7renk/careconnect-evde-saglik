@@ -29,6 +29,7 @@ Bu klasörde, evde sağlık hizmeti veren mobil APK fikri için çalışan bir a
 - Personel kartındaki Çağır düğmesi ödeme panelini açar.
 - Öde ve çağır işleminden sonra personel çağrısı oluşturulur.
 - e-Nabız anahtarı hasta paylaşım iznini simülasyon verisinde açıp kapatır.
+- Akıllı saat/bileklik altyapısı nabız, SpO2, adım, uyku, düşme algılama, acil uyarı ve konum paylaşımı metrikleri için hazırdır.
 - SOS ekranında Acil Yardım düğmesi 5 saniyelik geri sayım başlatır; sinyal bağlı hastane acil birimine ve 112'ye gönderilecek şekilde simüle edilir.
 - Profil ekranında üyelik, alerji taraması ve hasta kayıt alanları düzenlenebilir.
 
@@ -39,3 +40,7 @@ Bu prototip bir PWA olarak hazırlanmıştır. Sonraki adımda aynı arayüz Cap
 ## e-Nabız entegrasyon hazırlığı
 
 `app.js` içinde `patientProfile.enabizIntegration` alanı eklendi. Bu alan ileride gerçek servis bağlantısı geldiğinde bağlantı durumu, hasta onayı, izin verilen veri kapsamları, son senkronizasyon zamanı ve servis cevabı için kullanılabilir.
+
+## Akıllı saat ve bileklik entegrasyon hazırlığı
+
+`app.js` içinde `patientProfile.wearablesIntegration` alanı eklendi. Bu alan Apple HealthKit, Google Fit/Fitbit, Samsung Health, Huawei Health ve Xiaomi/Zepp gibi sağlayıcılar için bağlantı durumu, hasta onayı, izin verilen metrikler, son senkronizasyon zamanı ve servis cevabı saklamak üzere hazırlandı.

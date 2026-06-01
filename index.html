@@ -198,6 +198,14 @@
           </label>
         </section>
 
+        <section class="wearable-card">
+          <div>
+            <h3>Akıllı saat / bileklik bağlantısı</h3>
+            <p>Nabız, SpO2, adım, uyku ve düşme algılama verileri için altyapı hazır.</p>
+          </div>
+          <button class="text-action" id="connectWearableBtn">Bağla</button>
+        </section>
+
         <section class="allergy-alert">
           <span class="material-symbols-outlined">allergy</span>
           <div>
@@ -242,6 +250,38 @@
             <div class="chart-line"></div>
             <p>Son 7 günlük trend simülasyonu: ölçümler stabil görünüyor.</p>
           </div>
+          <section class="wearable-panel" aria-label="Akıllı cihaz verileri">
+            <div class="map-head">
+              <div>
+                <p class="label">Giyilebilir Cihazlar</p>
+                <h3>Akıllı bileklik ve saat altyapısı</h3>
+              </div>
+              <span id="wearableStatus">Bağlantı bekliyor</span>
+            </div>
+            <div class="wearable-grid">
+              <article>
+                <span class="material-symbols-outlined">watch</span>
+                <strong>Apple Watch</strong>
+                <small>HealthKit uyumlu alan</small>
+              </article>
+              <article>
+                <span class="material-symbols-outlined">watch</span>
+                <strong>Galaxy Watch</strong>
+                <small>Samsung Health uyumlu alan</small>
+              </article>
+              <article>
+                <span class="material-symbols-outlined">fitness_tracker</span>
+                <strong>Fitbit / Google Fit</strong>
+                <small>Aktivite ve uyku alanı</small>
+              </article>
+              <article>
+                <span class="material-symbols-outlined">emergency_share</span>
+                <strong>Düşme Algılama</strong>
+                <small>SOS akışına bağlanabilir</small>
+              </article>
+            </div>
+            <button class="primary-action" id="syncWearableBtn" type="button">Demo Verileri Senkronize Et</button>
+          </section>
         </section>
 
         <section class="sim-view hidden sos-view" id="sosView" aria-label="Acil yardım">

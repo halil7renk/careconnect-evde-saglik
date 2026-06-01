@@ -18,6 +18,37 @@ const patientProfile = {
       "vaccination_history"
     ],
     providerPayload: null
+  },
+  wearablesIntegration: {
+    status: "not_connected",
+    consentGiven: false,
+    supportedProviders: [
+      "Apple HealthKit",
+      "Google Fit / Fitbit",
+      "Samsung Health",
+      "Huawei Health",
+      "Xiaomi / Zepp"
+    ],
+    allowedMetrics: [
+      "heart_rate",
+      "spo2",
+      "steps",
+      "sleep",
+      "fall_detection",
+      "body_temperature",
+      "emergency_alert",
+      "location_share",
+      "battery_level"
+    ],
+    lastSyncAt: null,
+    latestVitals: {
+      heartRate: null,
+      spo2: null,
+      steps: null,
+      sleepHours: null,
+      fallDetected: false
+    },
+    providerPayload: null
   }
 };
 
@@ -298,6 +329,28 @@ document.querySelector("#enabizToggle").addEventListener("change", (event) => {
     ? "ready_for_connection"
     : "consent_revoked";
   showToast(event.currentTarget.checked ? "e-Nabız paylaşım izni aktif." : "e-Nabız paylaşım izni kapatıldı.");
+});
+
+document.querySelector("#connectWearableBtn").addEventListener("click", (event) => {
+  patientProfile.wearablesIntegration.status = "ready_for_pairing";
+  patientProfile.wearablesIntegration.consentGiven = true;
+  event.currentTarget.textContent = "Hazır";
+  document.querySelector("#wearableStatus").textContent = "Eşleşmeye hazır";
+  showToast("Akıllı saat/bileklik bağlantı izni hazırlandı.");
+});
+
+document.querySelector("#syncWearableBtn").addEventListener("click", () => {
+  patientProfile.wearablesIntegration.status = "synced";
+  patientProfile.wearablesIntegration.lastSyncAt = new Date().toISOString();
+  patientProfile.wearablesIntegration.latestVitals = {
+    heartRate: 74,
+    spo2: 98,
+    steps: 4210,
+    sleepHours: 7.4,
+    fallDetected: false
+  };
+  document.querySelector("#wearableStatus").textContent = "Demo senkronize";
+  showToast("Akıllı cihaz verileri demo olarak senkronize edildi.");
 });
 
 document.querySelector("#openProfile").addEventListener("click", openProfilePanel);
